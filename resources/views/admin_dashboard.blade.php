@@ -25,6 +25,10 @@
         <!-- Head js -->
         <script src="{{asset('backend/assets/js/head.js')}}"></script>
 
+        <!-- Toaster -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+        <!-- Toaster -->
+
     </head>
 
     <!-- body start -->
@@ -85,6 +89,35 @@
 
         <!-- App js-->
         <script src="{{asset('backend/assets/js/app.min.js')}}"></script>
+
+        <!-- Toastr JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+        @if(Session::has('message'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var type = "{{ Session::get('alert-type', 'info') }}";
+            var message = "{{ Session::get('message') }}";
+
+            switch (type) {
+                case 'info':
+                    toastr.info(message);
+                    break;
+                case 'success':
+                    toastr.success(message);
+                    break;
+                case 'warning':
+                    toastr.warning(message);
+                    break;
+                case 'error':
+                    toastr.error(message);
+                    break;
+            }
+        });
+    </script>
+@endif
+
         
     </body>
 </html>

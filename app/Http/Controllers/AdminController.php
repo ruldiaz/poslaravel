@@ -44,10 +44,16 @@ class AdminController extends Controller
             $filename = date('YmdHi').$file->getClientOriginalName();
             $file->move(public_path('upload/admin_image'), $filename);
             $data['photo'] = $filename;
+        }
 
             $data->save();
-            return redirect()->back();
-        }
+
+            $notification = array(
+                'message' => 'Admin Profile Updated Succesfully',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
     }//end method
 
 }
