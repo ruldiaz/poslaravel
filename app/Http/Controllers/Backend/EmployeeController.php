@@ -84,18 +84,7 @@ class EmployeeController extends Controller
         } else {
             $save_url = null; // O establece una imagen por defecto si es obligatorio
         }
-/*
-        if ($request->file('image')) {
-            $image = $request->file('image');
-            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-    
-            Image::make($image)->resize(300, 300)->save('upload/employee/' . $name_gen);
-            $save_url = 'upload/employee/' . $name_gen;
-        } else {
-            $save_url = null; // O establece una imagen por defecto si es obligatorio
-        }
-*/
-        //Image::make($image)->resize(300,300)->save('upload/employee/'.$name_gen);
+
         Employee::insert([
             'name' => $request->name,
             'email' => $request->email,
@@ -121,4 +110,85 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         return view('backend.employee.edit_employee', compact('employee'));
     }// end method
+
+    public function UpdateEmployee(Request $request) {
+        $employee_id = $request->id;
+    
+        // Validation rules (similar to StoreEmployee)
+        $validateData = $request->validate([
+            'name' => 'required|max:200',
+            'email' => 'required|max:200|unique:employees,email,'.$employee_id,
+            'phone' => 'required|max:200',
+            'address' => 'required|max:400',
+            'salary' => 'required|max:200',
+            'vacation' => 'required|max:200',
+            'experience' => 'required',
+        ]);
+    
+        $updateData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'experience' => $request->experience,
+            'salary' => $request->salary,
+            'vacation' => $request->vacation,
+            'city' => $request->city,
+            'created_at' => Carbon::now(),
+        ];
+    
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('upload/employee/');
+    
+            // Obtener la extensión de la imagen
+            $imgExtension = $image->getClientOriginalExtension();
+            
+            // Crear imagen a partir del archivo
+            if ($imgExtension == 'jpg' || $imgExtension == 'jpeg') {
+                $img = imagecreatefromjpeg($image->getRealPath());
+            } elseif ($imgExtension == 'png') {
+                $img = imagecreatefrompng($image->getRealPath());
+            } elseif ($imgExtension == 'gif') {
+                $img = imagecreatefromgif($image->getRealPath());
+            } else {
+                $notification = array(
+                    'message' => 'Invalid Image Format',
+                    'alert-type' => 'error'
+                );
+                return redirect()->back()->with($notification);
+            }
+    
+            // Redimensionar la imagen
+            $imgResized = imagescale($img, 300, 300);
+    
+            // Guardar la imagen redimensionada
+            if ($imgExtension == 'jpg' || $imgExtension == 'jpeg') {
+                imagejpeg($imgResized, $destinationPath . $name_gen);
+            } elseif ($imgExtension == 'png') {
+                imagepng($imgResized, $destinationPath . $name_gen);
+            } elseif ($imgExtension == 'gif') {
+                imagegif($imgResized, $destinationPath . $name_gen);
+            }
+    
+            // Liberar memoria
+            imagedestroy($img);
+            imagedestroy($imgResized);
+    
+            // Guardar la URL de la imagen
+            $save_url = 'upload/employee/' . $name_gen;
+            $updateData['image'] = $save_url;
+        }
+    
+        // Update only with the data we have
+        Employee::findOrFail($employee_id)->update($updateData);
+    
+        $notification = array(
+            'message' => 'Employee Updated Successfully',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->route('all.employee')->with($notification);
+    } // end method
 }
