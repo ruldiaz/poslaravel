@@ -84,8 +84,8 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="firstname" class="form-label">Employee Experience</label>
-                                            <select class="form-select" name="experience" id="">
-                                                <option selected="">Select Year</option>
+                                            <select class="form-select @error('experience') is-invalid @enderror" name="experience" id="">
+                                                <option selected disabled>Select Year</option>
                                                 <option value="1 Year">1 Year</option>
                                                 <option value="2 Year">2 Year</option>
                                                 <option value="3 Year">3 Year</option>
@@ -93,7 +93,9 @@
                                                 <option value="5 Year">5 Year</option>
                                                 
                                             </select>
-                                            
+                                            @error('experience')
+                                               <span class="text-danger">{{$message}}</span>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -130,7 +132,10 @@
                                     <div class="col-md-12">
                                       <div class="mb-3">
                                         <label for="example-fileinput" class="form-label">Employee Image</label>
-                                        <input type="file" name="image" id="image" class="form-control"> 
+                                        <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror"> 
+                                        @error('image')
+                                               <span class="text-danger">{{$message}}</span>
+                                            @enderror
                                       </div>
                                     </div> <!-- end col -->
 
