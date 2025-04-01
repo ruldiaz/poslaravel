@@ -101,4 +101,89 @@ class CustomerController extends Controller
 
         return redirect()->route('all.customer')->with($notification);
     }// end method
+
+    public function EditCustomer($id) {
+        $customer = Customer::findOrFail($id);
+        return view('backend.customer.edit_customer', compact('customer'));
+    }// end method
+
+    public function UpdateCustomer(Request $request) {
+        $customer_id = $request->id;
+    
+        // Validación sin requerir imagen (para actualizaciones)
+        $validateData = $request->validate([
+            'name' => 'required|max:200',
+            'email' => 'required|max:200|unique:customers,email,'.$customer_id,
+            'phone' => 'required|max:200',
+            'address' => 'required|max:400',
+            'shopname' => 'required|max:200',
+            'account_holder' => 'required|max:200',
+            'account_number' => 'required',
+        ]);
+    
+        // Obtener el cliente existente
+        $customer = Customer::findOrFail($customer_id);
+        
+        $updateData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'shopname' => $request->shopname,
+            'account_holder' => $request->account_holder,
+            'account_number' => $request->account_number,
+            'bank_name' => $request->bank_name,
+            'bank_branch' => $request->bank_branch,
+            'city' => $request->city,
+            'updated_at' => Carbon::now(),
+        ];
+    
+        if ($request->file('image')) {
+            // Eliminar la imagen anterior si existe
+            if ($customer->image && file_exists(public_path($customer->image))) {
+                unlink(public_path($customer->image));
+            }
+    
+            $image = $request->file('image');
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('upload/customer/');
+    
+            // Crear directorio si no existe
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+    
+            // Mover la imagen directamente (más eficiente que redimensionar con GD)
+            $image->move($destinationPath, $name_gen);
+    
+            // Guardar la URL de la imagen
+            $save_url = 'upload/customer/' . $name_gen;
+            $updateData['image'] = $save_url;
+        }
+    
+        // Actualizar el cliente
+        $customer->update($updateData);
+    
+        $notification = array(
+            'message' => 'Customer Updated Successfully',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->route('all.customer')->with($notification);
+    } // end method
+
+    public function DeleteCustomer($id) {
+        $customer_img = Customer::findOrFail($id);
+        $img = $customer_img->image;
+        unlink($img);
+
+        Customer::findOrFail($id)->delete();
+
+        $notification = array(
+            'message' => 'Customer Deleted Successfully',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->back()->with($notification);
+    } // end method
 }
