@@ -12,7 +12,7 @@ use Carbon\Carbon;
 
 class SalaryController extends Controller
 {
-    public function AddAvanceSalary() {
+    public function AddAdvanceSalary() {
         $employee = Employee::latest()->get();
         return view('backend.salary.add_advance_salary', compact('employee'));
     } // end method
@@ -42,7 +42,7 @@ class SalaryController extends Controller
                 'alert-type' => 'success'
             );
     
-            return redirect()->back()->with($notification);
+            return redirect()->back('all.advance.salary')->with($notification);
         }else{
             $notification = array(
                 'message' => 'Advance Already Paid',
@@ -53,8 +53,33 @@ class SalaryController extends Controller
         }
     } // end method
 
-    public function AllAvanceSalary(){
+    public function AllAdvanceSalary(){
         $salary = AdvanceSalary::latest()->get();
         return view('backend.salary.all_advance_salary', compact('salary'));
+    } // end method
+
+    public function EditAdvanceSalary($id) {
+        $employee = Employee::latest()->get();
+        $salary = AdvanceSalary::findOrFail($id);
+        return view('backend.salary.edit_advance_salary', compact('salary', 'employee'));
+    } // end method
+
+    public function AdvanceSalaryUpdate(Request $request) {
+        $salary_id = $request->id;
+
+        AdvanceSalary::findOrFail($salary_id)->update([
+            'employee_id' => $request->employee_id,
+            'month' => $request->month,
+            'year' => $request->year,
+            'advance_salary' => $request->advance_salary,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $notification = array(
+            'message' => 'Advance Salary Updated Succesfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('all.advance.salary')->with($notification);
     } // end method
 }
