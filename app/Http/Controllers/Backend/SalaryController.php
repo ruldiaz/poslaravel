@@ -52,4 +52,9 @@ class SalaryController extends Controller
             return redirect()->back()->with($notification);
         }
     } // end method
+
+    public function AllAvanceSalary(){
+        $salary = AdvanceSalary::latest()->get();
+        return view('backend.salary.all_advance_salary', compact('salary'));
+    } // end method
 }
