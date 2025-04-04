@@ -90,4 +90,9 @@ class SalaryController extends Controller
         $employee = Employee::latest()->get();
         return view('backend.salary.pay_salary', compact('employee'));
     } // end method
+
+    public function PayNowSalary($id) {
+        $paysalary = Employee::findOrFail($id);
+        return view('backend.salary.paid_salary', compact('paysalary'));
+    } // end method
 }
