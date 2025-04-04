@@ -115,4 +115,9 @@ class SalaryController extends Controller
 
         return redirect()->route('pay.salary')->with($notification);
     } // end method
+
+    public function MonthSalary() {
+        $paidsalary = PaySalary::latest()->get();
+        return view('backend.salary.month_salary', compact('paidsalary'));
+    } // end method
 }
