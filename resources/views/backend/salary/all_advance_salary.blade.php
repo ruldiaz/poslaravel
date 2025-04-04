@@ -50,7 +50,14 @@
                                 <td>{{$item['employee']['name']}}</td>
                                 <td>{{$item->month}}</td>
                                 <td>{{$item['employee']['salary']}}</td>
-                                <td>{{$item->advance_salary}}</td>
+                                <td>   
+                                  @if($item->advance_salary == NULL)
+                                    <p>No Advance</p>
+                                  @else
+                                      {{$item->advance_salary}}
+                                  @endif
+                                  
+                                  </td>
                                                                 
                                 <td>
                                     <a href="{{route('edit.advance.salary', $item->id)}}" class="btn btn-blue rounded-pill waves-effect waves-light">Edit</a>
