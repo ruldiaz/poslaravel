@@ -68,13 +68,18 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/details/supplier/{id}','DetailsSupplier')->name('details.supplier');
          });
 
-        // Salary All Route
+        // Advance Salary All Route
         Route::controller(SalaryController::class)->group(function(){
             Route::get('/add/advance/salary','AddAdvanceSalary')->name('add.advance.salary');
             Route::post('/advance/salary/store','AdvanceSalaryStore')->name('advance.salary.store');
             Route::get('/all/advance/salary','AllAdvanceSalary')->name('all.advance.salary');
             Route::get('/edit/advance/salary/{id}','EditAdvanceSalary')->name('edit.advance.salary');
             Route::post('/advance/salary/update','AdvanceSalaryUpdate')->name('advance.salary.update');
+        });
+
+        // Pay Salary All Route
+        Route::controller(SalaryController::class)->group(function(){
+            Route::get('/pay/salary','PaySalary')->name('pay.salary');
             
         });
 }); // End user middleware

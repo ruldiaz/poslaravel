@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdvanceSalary;
 use App\Models\Employee;
+use App\Models\PaySalary;
 use Intervention\Image\Facades\Image;
 
 use Carbon\Carbon;
@@ -81,5 +82,12 @@ class SalaryController extends Controller
         );
 
         return redirect()->route('all.advance.salary')->with($notification);
+    } // end method
+
+    // Pay Salary All Method
+
+    public function PaySalary() {
+        $employee = Employee::latest()->get();
+        return view('backend.salary.pay_salary', compact('employee'));
     } // end method
 }
