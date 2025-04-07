@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/add/employee/attend','AddEmployeeAttendance')->name('add.employee.attend');
             Route::post('/employee/attend/store','EmployeeAttendanceStore')->name('employee.attend.store');
             Route::get('/edit/employee/attend/{date}','EditEmployeeAttendance')->name('employee.attend.edit');
+            Route::get('/view/employee/attend/{date}','ViewEmployeeAttendance')->name('employee.attend.view');
         });
 }); // End user middleware
 
