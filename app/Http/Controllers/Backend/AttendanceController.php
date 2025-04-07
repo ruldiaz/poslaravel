@@ -41,4 +41,10 @@ class AttendanceController extends Controller
 
         return redirect()->route('employee.attend.list')->with($notification);
     } // end method
+
+    public function EditEmployeeAttendance($date) {
+        $employees = Employee::all();
+        $editData = Attendance::where('date', $date)->get();
+        return view('backend.attendance.edit_employee_attend', compact('employees','editData'));
+    } // end method
 }
