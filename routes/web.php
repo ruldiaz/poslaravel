@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\AttendanceController;
+use App\Http\Controllers\Backend\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -93,6 +94,12 @@ Route::middleware(['auth'])->group(function(){
             Route::post('/employee/attend/store','EmployeeAttendanceStore')->name('employee.attend.store');
             Route::get('/edit/employee/attend/{date}','EditEmployeeAttendance')->name('employee.attend.edit');
             Route::get('/view/employee/attend/{date}','ViewEmployeeAttendance')->name('employee.attend.view');
+        });
+
+        // Category All Route
+        Route::controller(CategoryController::class)->group(function(){
+            Route::get('/all/category','AllCategory')->name('all.category');
+           
         });
 }); // End user middleware
 
