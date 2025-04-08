@@ -26,4 +26,34 @@ class CategoryController extends Controller
         );
         return redirect()->route('all.category')->with($notification);
     } // end method
+
+    public function EditCategory($id) {
+        $category = Category::findOrFail($id);
+        return view('backend.category.edit_category', compact('category'));
+    } // end method
+
+    public function UpdateCategory(Request $request) {
+        $category_id = $request->id;
+
+        Category::findOrFail($category_id)->update([
+            'category_name' => $request->category_name,
+            'created_at' => Carbon::now()
+        ]);
+
+        $notification = array(
+            'message' => 'Category Updated Succesfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.category')->with($notification);
+    } // end method
+
+    public function DeleteCategory($id) {
+        Category::findOrFail($id)->delete();
+
+        $notification = array(
+            'message' => 'Category Deleted Succesfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    } // end method
 }
