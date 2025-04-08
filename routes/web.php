@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\AttendanceController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -103,6 +104,12 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
             Route::post('/update/category','UpdateCategory')->name('category.update');
             Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
+        });
+
+        // Product All Route
+        Route::controller(ProductController::class)->group(function(){
+            Route::get('/all/product','AllProduct')->name('all.product');
+            
         });
 }); // End user middleware
 
