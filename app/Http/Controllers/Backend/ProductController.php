@@ -178,5 +178,10 @@ class ProductController extends Controller
     
         return redirect()->back()->with($notification);
     } // end method
+
+    public function BarcodeProduct($id) {
+        $product = Product::findOrFail($id);
+        return view('backend.product.barcode_product', compact('product'));
+    } // end method
     
 }
