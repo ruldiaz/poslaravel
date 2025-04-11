@@ -94,4 +94,89 @@ class ProductController extends Controller
 
         return redirect()->route('all.product')->with($notification);
     }// end method
+
+    public function EditProduct($id) {
+        $product = Product::findOrFail($id);
+        $category = Category::latest()->get();
+        $supplier = Supplier::latest()->get();
+        return view('backend.product.edit_product', compact('product','category','supplier'));
+    } // end method
+
+    public function UpdateProduct(Request $request)
+    {
+        $product_id = $request->id;
+    
+        $request->validate([
+            'product_name' => 'required|max:255',
+            'category_id' => 'required|integer',
+            'supplier_id' => 'required|integer',
+            'product_code' => 'required|max:100',
+            'product_garage' => 'nullable|max:100',
+            'product_store' => 'nullable|max:100',
+            'buying_date' => 'nullable|date',
+            'expire_date' => 'nullable|date',
+            'buying_price' => 'required|numeric',
+            'selling_price' => 'required|numeric',
+        ]);
+    
+        $product = Product::findOrFail($product_id);
+    
+        $save_url = $product->product_image; // usa la imagen actual por defecto
+    
+        if ($request->file('product_image')) {
+            if ($product->product_image && file_exists(public_path($product->product_image))) {
+                unlink(public_path($product->product_image));
+            }
+    
+            $image = $request->file('product_image');
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('upload/product/');
+    
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+    
+            $image->move($destinationPath, $name_gen);
+            $save_url = 'upload/product/' . $name_gen;
+        }
+    
+        $updateData = [
+            'product_name' => $request->product_name,
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
+            'product_code' => $request->product_code,
+            'product_garage' => $request->product_garage,
+            'product_store' => $request->product_store,
+            'buying_date' => $request->buying_date,
+            'expire_date' => $request->expire_date,
+            'buying_price' => $request->buying_price,
+            'selling_price' => $request->selling_price,
+            'product_image' => $save_url,
+        ];
+    
+        $product->update($updateData);
+    
+        $notification = [
+            'message' => 'Product Updated Successfully',
+            'alert-type' => 'success',
+        ];
+    
+        return redirect()->route('all.product')->with($notification);
+    } // end method
+
+    public function DeleteProduct($id) {
+        $product_img = Product::findOrFail($id);
+        $img = $product_img->product_image;
+        unlink($img);
+
+        Product::findOrFail($id)->delete();
+
+        $notification = array(
+            'message' => 'Product Deleted Successfully',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->back()->with($notification);
+    } // end method
+    
 }
