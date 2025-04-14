@@ -185,5 +185,10 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         return view('backend.product.barcode_product', compact('product'));
     } // end method
+
+    public function ImportProduct() {
+        return view('backend.product.import_product');
+    } // end method
+
     
 }
