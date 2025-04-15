@@ -126,6 +126,8 @@ Route::middleware(['auth'])->group(function(){
                     Route::get('/add/expense','AddExpense')->name('add.expense');
                     Route::post('/store/expense','StoreExpense')->name('expense.store');
                     Route::get('/today/expense','TodayExpense')->name('today.expense');
+                    Route::get('/edit/expense/{id}','EditExpense')->name('edit.expense');
+                    Route::post('/update/expense','UpdateExpense')->name('expense.update');
                 });
 }); // End user middleware
 
