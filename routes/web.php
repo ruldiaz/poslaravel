@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\AttendanceController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ExpenseController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -119,5 +120,11 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/export','Export')->name('export');
             Route::post('/import','Import')->name('import');
         });
+
+                // Expense All Route
+                Route::controller(ExpenseController::class)->group(function(){
+                    Route::get('/add/expense','AddExpense')->name('add.expense');
+                    
+                });
 }); // End user middleware
 
