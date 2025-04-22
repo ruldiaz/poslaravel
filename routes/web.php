@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\AttendanceController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ExpenseController;
+use App\Http\Controllers\Backend\PosController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -121,15 +122,21 @@ Route::middleware(['auth'])->group(function(){
             Route::post('/import','Import')->name('import');
         });
 
-                // Expense All Route
-                Route::controller(ExpenseController::class)->group(function(){
-                    Route::get('/add/expense','AddExpense')->name('add.expense');
-                    Route::post('/store/expense','StoreExpense')->name('expense.store');
-                    Route::get('/today/expense','TodayExpense')->name('today.expense');
-                    Route::get('/edit/expense/{id}','EditExpense')->name('edit.expense');
-                    Route::post('/update/expense','UpdateExpense')->name('expense.update');
-                    Route::get('/month/expense','MonthExpense')->name('month.expense');
-                    Route::get('/year/expense','YearExpense')->name('year.expense');
+        // Expense All Route
+        Route::controller(ExpenseController::class)->group(function(){
+            Route::get('/add/expense','AddExpense')->name('add.expense');
+            Route::post('/store/expense','StoreExpense')->name('expense.store');
+            Route::get('/today/expense','TodayExpense')->name('today.expense');
+            Route::get('/edit/expense/{id}','EditExpense')->name('edit.expense');
+            Route::post('/update/expense','UpdateExpense')->name('expense.update');
+            Route::get('/month/expense','MonthExpense')->name('month.expense');
+            Route::get('/year/expense','YearExpense')->name('year.expense');
+        });
+
+                // Pos All Route
+                Route::controller(PosController::class)->group(function(){
+                    Route::get('/pos','Pos')->name('pos');
+                   
                 });
 }); // End user middleware
 
