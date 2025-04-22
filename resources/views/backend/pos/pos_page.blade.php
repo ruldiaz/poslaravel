@@ -28,8 +28,55 @@
             <div class="card text-center">
                 <div class="card-body">
                    
+                <div class="table-responsive">
+                  <table class="table table-bordered border-primary mb-0">
+                      <thead>
+                          <tr>
+                              <th>Name</th>
+                              <th>QTY</th>
+                              <th>Price</th>
+                              <th>SubTotal</th>
+                              <th>Action</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>Mark</td>
+                              <td><input type="number" value="0" style="width: 40px;" min="1" ></td>
+                              <td>334</td>
+                              <td>45543</td>
+                              <td><a href=""><i class="fas fa-trash-alt" style="color: #ffffff;"></i></a></td>
+                          </tr>
+                         
+                      </tbody>
+                  </table>
+              </div>
+              <div class="bg-primary">
+                <br>
+                  <p style="font-size: 18px; color: #ffffff;" >Quantity: 3434</p>
+                  <p style="font-size: 18px; color: #ffffff;" >SubTotal: 3434</p>
+                  <p style="font-size: 18px; color: #ffffff;" >Vat: 3434</p>
+                  <p><h2 class="text-white">Total: </h2><h1 class="text-white">3434</h1></p>
+                <br>
+              </div>
 
-   
+              <br>
+              <form action="">
+             
+                  <div class="form-group mb-3">
+                      <label for="firstname" class="form-label">All Customer</label>
+                      <a href="{{route('add.customer')}}" class="btn btn-primary rounded-pill waves-effect waves-light mb-2">Add Customer</a>
+                      <select class="form-select" name="supplier_id" id="">
+                          <option selected disabled>Select Customer</option>
+                          @foreach($customer as $cus)
+                          <option value="{{$cus->id}}">{{$cus->name}}</option>
+                          @endforeach
+                      </select>
+                  </div>
+
+                  <button class="btn btn-blue waves-effect waves-light">Create Invoice</button>
+              
+              </form>
                 </div>                                 
             </div> <!-- end card -->
 
