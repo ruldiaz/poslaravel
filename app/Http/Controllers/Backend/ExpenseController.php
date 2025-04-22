@@ -60,4 +60,16 @@ class ExpenseController extends Controller
 
         return redirect()->route('today.expense')->with($notification);
     } // end method
+
+    public function MonthExpense() {
+        $month = date("F");
+        $monthExpense = Expense::where('month', $month)->get();
+        return view('backend.expense.month_expense', compact('monthExpense'));
+    }  // end method
+
+    public function YearExpense() {
+        $year = date("Y");
+        $yearExpense = Expense::where('year', $year)->get();
+        return view('backend.expense.year_expense', compact('yearExpense'));
+    } // end method
 }
