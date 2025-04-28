@@ -134,14 +134,20 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/year/expense','YearExpense')->name('year.expense');
         });
 
-                // Pos All Route
-                Route::controller(PosController::class)->group(function(){
-                    Route::get('/pos','Pos')->name('pos');
-                    Route::post('/add-cart','AddCart');
-                    Route::get('/allitem','AllItem');
-                    Route::post('/cart-update/{rowId}','CartUpdate');
-                    Route::get('/cart-remove/{rowId}','CartRemove');
-                    Route::post('/create-invoice','CreateInvoice');
-                });
+        // Pos All Route
+        Route::controller(PosController::class)->group(function(){
+            Route::get('/pos','Pos')->name('pos');
+            Route::post('/add-cart','AddCart');
+            Route::get('/allitem','AllItem');
+            Route::post('/cart-update/{rowId}','CartUpdate');
+            Route::get('/cart-remove/{rowId}','CartRemove');
+            Route::post('/create-invoice','CreateInvoice');
+        });
+
+        // Order All Route
+        Route::controller(OrderController::class)->group(function(){
+        Route::post('/final-invoice','FinalInvoice');
+       
+    });
 }); // End user middleware
 

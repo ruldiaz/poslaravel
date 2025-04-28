@@ -167,12 +167,12 @@
                 </div>
             </div>
                
-                <form class="px-3" method="post" action="{{ route('category.store') }}">
+                <form class="px-3" method="post" action="{{ url('/final-invoice') }}">
                 @csrf
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Payment</label>
-                        <select class="form-select" name="customer_id" id="">
+                        <select class="form-select" name="payment_status" id="">
                           <option selected disabled>Select Payment</option>
                           
                           <option value="HandCash">HandCash</option>
@@ -184,13 +184,22 @@
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Pay Now</label>
-                        <input class="form-control" type="text" name="category_name" placeholder="Pay Now">
+                        <input class="form-control" type="text" name="pay" placeholder="Pay Now">
                     </div>
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Due Amount</label>
-                        <input class="form-control" type="text" name="category_name" placeholder="Due Amount">
+                        <input class="form-control" type="text" name="due" placeholder="Due Amount">
                     </div>
+
+                    <input type="hidden" name="customer_id" value="{{$customer->id}}" >
+                    <input type="hidden" name="order_date" value="{{date('d-F-Y')}}" >
+                    <input type="hidden" name="order_status" value="pending" >
+                    <input type="hidden" name="total_products" value="{{Cart::count()}}" >
+                    <input type="hidden" name="sub_total" value="{{Cart::subtotal()}}" >
+                    <input type="hidden" name="vat" value="{{Cart::tax()}}" >
+                    <input type="hidden" name="total" value="{{Cart::total()}}" >
+                    
 
                     <div class="mb-3 text-center">
                         <button class="btn btn-primary" type="submit">Complete Order</button>
