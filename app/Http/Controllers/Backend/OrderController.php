@@ -48,9 +48,14 @@ class OrderController extends Controller
         );
 
         Cart::destroy();
-        
+
         return redirect()->route('dashboard')->with($notification);
 
 
+    } // end method
+
+    public function PendingOrder() {
+        $orders = Order::where('order_status', 'pending')->get();
+        return view('backend.order.pending_order', compact('orders'));
     } // end method
 }
