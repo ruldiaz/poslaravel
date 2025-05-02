@@ -148,6 +148,7 @@ Route::middleware(['auth'])->group(function(){
         Route::controller(OrderController::class)->group(function(){
         Route::post('/final-invoice','FinalInvoice');
         Route::get('/pending/order','PendingOrder')->name('pending.order');
+        Route::get('/order/details/{order_id}','OrderDetails')->name('order.details');
     });
 }); // End user middleware
 
