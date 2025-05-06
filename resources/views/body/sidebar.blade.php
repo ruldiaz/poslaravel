@@ -184,9 +184,21 @@
                         <li>
                             <a href="{{route('complete.order')}}">Complete Orders</a>
                         </li>
+                    </ul>
+                </div>
+            </li>
 
-                      
-            
+            <li>
+                <a href="#stock" data-bs-toggle="collapse">
+                    <i class="mdi mdi-email-multiple-outline"></i>
+                    <span> Stock Manage </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="stock">
+                    <ul class="nav-second-level">
+                        <li>
+                            <a href="{{route('stock.manage')}}">Stock</a>
+                        </li>
                     </ul>
                 </div>
             </li>
