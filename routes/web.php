@@ -175,5 +175,13 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/update/roles','UpdateRoles')->name('roles.update');
         Route::get('/delete/roles/{id}','DeleteRoles')->name('delete.roles');
     });
+
+     // Add Roles in Permission All Route
+     Route::controller(RoleController::class)->group(function(){
+        Route::get('/add/roles/permission','AddRolesPermission')->name('add.roles.permission');
+   
+    });
+
+
 }); // End user middleware
 
