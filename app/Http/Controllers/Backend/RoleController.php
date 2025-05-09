@@ -155,4 +155,26 @@ class RoleController extends Controller
         $permission_groups = User::getpermissionGroups();
         return view('backend.pages.roles.edit_roles_permission', compact('role','permissions','permission_groups'));
     }  // End method
+
+   public function RolePermissionUpdate(Request $request, $id) {
+    $role = Role::findOrFail($id);
+    $permissionIds = $request->permission;
+
+    if (!empty($permissionIds)) {
+        // Get the actual permission models
+        $permissions = Permission::whereIn('id', $permissionIds)->get();
+        
+        // Sync using the permission objects
+        $role->syncPermissions($permissions);
+    } else {
+        // If no permissions selected, remove all permissions
+        $role->syncPermissions([]);
+    }
+
+    $notification = array(
+        'message' => 'Role Permission Updated Successfully',
+        'alert-type' => 'success'
+    );
+    return redirect()->route('all.roles.permission')->with($notification);
+}
 }
