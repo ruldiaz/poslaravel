@@ -98,4 +98,10 @@ class AdminController extends Controller
 
     }//end method
 
+    // Admin User All Method //
+    public function AllAdmin() {
+        $alladminuser = User::latest()->get();
+        return view('backend.admin.all_admin', compact('alladminuser'));
+    } // End Method
+
 }
