@@ -193,6 +193,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/store/admin','StoreAdmin')->name('admin.store');
         Route::get('/edit/admin/{id}','EditAdmin')->name('edit.admin');
         Route::post('/update/admin','UpdateAdmin')->name('admin.update');
+        Route::get('/delete/admin/{id}','DeleteAdmin')->name('delete.admin');
     });
 
 }); // End user middleware
