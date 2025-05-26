@@ -50,7 +50,11 @@
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->email}}</td>
                                 <td>{{$item->phone}}</td>
-                                <td>Role</td>
+                                <td>
+                                    @foreach($item->roles as $role)
+                                        <span class="badge badge-pill btn-danger">{{$role->name}}</span>
+                                    @endforeach
+                                </td>
                                 
                                                                 
                                 <td>
